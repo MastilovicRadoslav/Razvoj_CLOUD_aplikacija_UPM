@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "Registration Page";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registracija</title>
+    <link href="~/Content/registrationStyle.css" rel="stylesheet" />
+    <script src="~/Scripts/registrationValidation.js"></script>
+</head>
+<body>
+    <div class="pageStyle">
+        <div class="containerStyle">
+            <h2 class="titleStyle">Registracija</h2>
+            <form method="post" action="/Registration/SubmitRegistration">
+                <div>
+                    <label for="firstname">Ime:</label>
+                    <input type="text" id="fname" name="fname" />
+                </div>
+                <div>
+                    <label for="lastname">Prezime:</label>
+                    <input type="text" id="lname" name="lname" />
+                </div>
+                <div>
+                    <label for="adress">Adresa:</label>
+                    <input type="text" id="adress" name="adress" />
+                </div>
+                <div>
+                    <label for="city">Grad:</label>
+                    <input type="text" id="city" name="city" />
+                </div>
+                <div>
+                    <label for="country">Država:</label>
+                    <input type="text" id="country" name="country" />
+                </div>
+                <div>
+                    <label for="phonenumber">Broj telefona:</label>
+                    <input type="tel" id="phoneNumber" name="phoneNumber" />
+                </div>
+                <div>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" />
+                </div>
+                <div>
+                    <label for="password">Lozinka:</label>
+                    <input type="password" id="password" name="password" />
+                </div>
+                <div>
+                    <label for="image">Slika:</label>
+                    <input type="file" id="image" name="image" onchange="previewImageReg(this)" accept="image/*" />
+                </div>
+                <div>
+                    <img id="profileImage" src="" alt="Profilna">
+                </div>
+                <div>
+                    <button type="button" onclick="ValidateAndSubmitReg()" class="btn btn-outline-dark custom-button">Registruj se</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body >
+</html >
