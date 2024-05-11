@@ -17,6 +17,9 @@
             </button>
             <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
+                    <li>@Html.ActionLink("Registration", "Registration", "Registration", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Login", "Login", "Login", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Profile", "ShowProfile", "Profile", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                 </ul>
             </div>
@@ -26,7 +29,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; My ASP.NET Application</p>
+            <p>&copy;ASP.NET Application</p>
         </footer>
     </div>
 
