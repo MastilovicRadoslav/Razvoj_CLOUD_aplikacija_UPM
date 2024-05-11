@@ -1,0 +1,26 @@
+.comments {
+    display: none;
+    margin-top: 10px;
+    padding-left: 20px;
+    border-left: 2px solid #0079d3;
+}
+
+.toggle-comments {
+    cursor: pointer;
+    color: #0079d3;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.comment {
+    background-color: #f0f7ff;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.comment-meta {
+    font-size: 0.8em;
+    color: #666;
+    margin-bottom: 10px;
+}

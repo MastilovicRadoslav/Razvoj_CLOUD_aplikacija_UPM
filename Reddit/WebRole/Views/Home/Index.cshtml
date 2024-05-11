@@ -2,32 +2,108 @@
     ViewBag.Title = "Home Page";
 }
 
-<main>
-    <section class="row" aria-labelledby="aspnetTitle">
-        <h1 id="title">ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-        <p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
-    </section>
+@model List<FrontReddit.Models.Post>
 
-    <div class="row">
-        <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-            <h2 id="gettingStartedTitle">Getting started</h2>
-            <p>
-                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                enables a clean separation of concerns and gives you full control over markup
-                for enjoyable, agile development.
-            </p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="librariesTitle">
-            <h2 id="librariesTitle">Get more libraries</h2>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="hostingTitle">
-            <h2 id="hostingTitle">Web Hosting</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-        </section>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reddit</title>
+    <link href="~/Content/sideBarStyle.css" rel="stylesheet" />
+    <link href="~/Content/postStyle.css" rel="stylesheet" />
+    <link href="~/Content/modalStyle.css" rel="stylesheet" />
+    <link href="~/Content/homeStyle.css" rel="stylesheet" />
+    <link href="~/Content/commentStyle.css" rel="stylesheet" />
+    <script src="~/Scripts/postFunctions.js"></script>
+    <script src="~/Scripts/postValidation.js"></script>
+    <script src="~/Scripts/commentFunctions.js"></script>
+    <script src="~/Scripts/openCloseModal.js"></script>
+    <script src="~/Scripts/searchAndSortPost.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Reddit</h1>
+    </header>
+
+    <!-- Prikaz za pretragu, sortiranje i dodavanje novog posta -->
+    <div class="sidebar-container">
+        <div class="sidebar">
+            <input id="searchInput" type="text" placeholder="Pretraga..." onchange="searchText()">
+            <select id="sortSelect" onchange="sendPostRequest()">
+                <option value="">Sortiranje...</option>
+                <option value="Sortiranje po nazivu">Naziv posta</option>
+            </select>
+            <div class="button-container">
+                <button id="openModal">Dodavanje novog posta</button>
+            </div>
+        </div>
     </div>
-</main>
+
+    <!-- Postovi -->
+    @foreach (var post in Model)
+    {
+        <div class="post">
+            <span class="delete-post" onclick="deletePost()">
+                <img class="delete-post-icon" src="~/Images/Icons/trash-icon.jpg" alt="Brisanje">
+            </span>
+            <h2>@post.Title <span class="add-to-favorites favorite-star" onclick="addToFavorites(this)">★</span></h2>
+            <p>@post.Description</p>
+            @if (!string.IsNullOrEmpty(post.Image))
+            {
+                <img id="postImage" src="@Url.Content(post.Image)" alt="Slika">
+            }
+            <p class="post-meta">Post je objavio - @post.UserEmail</p>
+            <div class="like-unlike-wrapper">
+                <div class="like-unlike-container">
+                    <div class="like" id="likeBtn">&#x1F44D;</div>
+                    <div class="like-count" id="likeCountDisplay">@post.Like</div>
+                </div>
+                <div class="like-unlike-container">
+                    <div class="unlike" id="unlikeBtn">&#x1F44E;</div>
+                    <div class="unlike-count" id="unlikeCountDisplay">@post.UnLike</div>
+                </div>
+            </div>
+            <div class="toggle-comments">+</div>
+            <!-- Komentari -->
+            <div class="comments">
+                @foreach (var comment in post.Comments)
+                {
+                    <div class="comment">@comment.Text</div>
+                    <div class="comment-meta">Komentarisao je - @comment.UserEmail</div>
+                    <div style="margin-bottom:20px;"></div>
+                }
+                <!-- Dodavanje novog komentara -->
+                <div class="new-comment">
+                    <input type="text" class="comment-input" placeholder="Napiši komentar">
+                    <button class="add-comment">Dodaj komentar</button>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Modal  za dodavanje novo posta -->
+    <div id="myModal" class="modal">
+        <div class="modal-container">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div class="modal-header">
+                    <h2 class="titleStyle">Novi post</h2>
+                </div>
+                <div class="modal-body">
+                    <form id="postForm" method="post" action="/Home/Addnewpost">
+                        <label for="postTitle">Tema:</label><br>
+                        <input type="text" id="postTitle" name="postTitle"><br><br>
+                        <label for="postDescription">Opis:</label><br>
+                        <textarea id="postDescription" name="postDescription"></textarea><br><br>
+                        <label for="postImage">Slika:</label><br>
+                        <input type="file" id="image" name="image" onchange="showImage(this)" accept="image/*" /><br><br>
+                        <img id="newPostImage" src="" alt="Slika za post"><br><br>
+                        <input type="button" class="btn btn-outline-dark custom-button" onclick="ValidateAndSubmitPost()" value="Dodaj novi post">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

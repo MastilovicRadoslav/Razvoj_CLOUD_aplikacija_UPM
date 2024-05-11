@@ -1,0 +1,29 @@
+.sidebar-container {
+    background-color: #f6f6f6;
+    padding-bottom: 5px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.sidebar-container .sidebar {
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+}
+
+.sidebar {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.sidebar input[type="text"],
+.sidebar select {
+    display: inline-block;
+    width: calc(50% - 5px);
+    margin-bottom: 5px;
+    padding: 5px;
+    margin-right: 15px;
+}
