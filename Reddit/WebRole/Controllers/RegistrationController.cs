@@ -1,9 +1,9 @@
-﻿using FrontReddit.ImagePathConverter;
-using FrontReddit.Models;
+﻿using WebRole.ImagePathConverter;
+using Models;
 using System.Diagnostics;
 using System.Web.Mvc;
 
-namespace FrontReddit.Controllers
+namespace WebRole.Controllers
 {
     public class RegistrationController : Controller
     {

@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace FrontReddit.ImagePathConverter
+namespace WebRole.ImagePathConverter
 {
     public class PathConverter
     {

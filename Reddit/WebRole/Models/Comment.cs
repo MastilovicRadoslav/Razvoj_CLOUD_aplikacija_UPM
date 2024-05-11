@@ -1,4 +1,4 @@
-﻿namespace FrontReddit.Models
+﻿namespace Models
 {
     public class Comment
     {
@@ -10,5 +10,11 @@
         public Comment()
         {
         }
-    }
+
+		public Comment(string text, string userEmail)
+		{
+			Text = text;
+			UserEmail = userEmail;
+		}
+	}
 }

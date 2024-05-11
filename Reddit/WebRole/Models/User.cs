@@ -1,4 +1,4 @@
-﻿namespace FrontReddit.Models
+﻿namespace Models
 {
     public class User
     {

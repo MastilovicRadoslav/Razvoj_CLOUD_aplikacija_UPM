@@ -1,8 +1,8 @@
-﻿using FrontReddit.Models;
+﻿using Models;
 using System.Diagnostics;
 using System.Web.Mvc;
 
-namespace FrontReddit.Controllers
+namespace WebRole.Controllers
 {
     public class ProfileController : Controller
     {

@@ -1,8 +1,8 @@
-﻿using FrontReddit.Models;
+﻿using Models;
 using System.Diagnostics;
 using System.Web.Mvc;
 
-namespace FrontReddit.Controllers
+namespace Controllers
 {
     public class LoginController : Controller
     {

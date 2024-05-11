@@ -1,7 +1,6 @@
-﻿using FrontReddit.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace FrontReddit
+namespace Models
 {
     public static class AppContext
     {

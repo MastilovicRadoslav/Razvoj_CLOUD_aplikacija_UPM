@@ -1,4 +1,4 @@
-﻿using FrontReddit.Models;
+﻿using Models;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Web.Mvc;
