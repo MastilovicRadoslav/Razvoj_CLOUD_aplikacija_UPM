@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Login Page";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prijava</title>
+    <link href="~/Content/loginStyle.css" rel="stylesheet" />
+    <script src="~/Scripts/loginValidation.js"></script>
+</head>
+<body>
+    <div class="pageStyle">
+        <div class="containerStyle">
+            <h1 class="titleStyle">Prijava</h1>
+            <form method="post" action="/Login/SubmitLogin">
+                <div>
+                    <label for="email">Email:</label>
+                    <input style="margin-left: 23px;" type="email" id="email" name="email" />
+                </div>
+                <div>
+                    <label for="password">Lozinka:</label>
+                    <input style="margin-left: 5px;" type="password" id="password" name="password" />
+                </div>
+                <div>
+                    <button type="button" onclick="ValidateAndSubmit()" class="btn btn-outline-dark custom-button">Prijavi se</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

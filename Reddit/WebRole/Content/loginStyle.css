@@ -1,0 +1,43 @@
+.pageStyle {
+    text-align: center;
+    background-image: url('/Images/Backgrounds/login.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.containerStyle {
+    text-align: center;
+    background-color: white;
+    width: 350px;
+    height: 200px;
+    border-radius: 8px;
+}
+
+.titleStyle {
+    margin-top: 15px;
+    font-family: 'Times New Roman';
+    font-weight: bold;
+    color: black;
+}
+
+label {
+    font-family: 'Times New Roman';
+    font-weight: bold;
+    font-size: 20px;
+    color: black;
+}
+
+input {
+    margin-top: 5px;
+    font-family: 'Times New Roman';
+    font-weight: bold;
+    color: black;
+}
+
+.custom-button {
+    margin-top: 10px;
+}
