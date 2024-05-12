@@ -1,4 +1,4 @@
-﻿// JavaScript za like/unlike posta, brisanje posta i dodavanje posta u favorite
+﻿// JavaScript funkcija za like/unlike posta
 document.addEventListener("DOMContentLoaded", function () {
     const likeCounts = [];
     const unlikeCounts = [];
@@ -26,10 +26,12 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+// JavaScript funkcija za brisanje posta
 function deletePost() {
     alert('Obrisan');
 }
 
+// JavaScript funkcija za dodavanje posta u favorite
 var isFirstClick = true;
 function addToFavorites(element) {
     var title = element.parentElement;
@@ -46,6 +48,7 @@ function addToFavorites(element) {
     }
 }
 
+// JavaScript funkcija za prikaz slike kod dodavanja novog posta
 function showImage(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
@@ -57,4 +60,26 @@ function showImage(input) {
         };
         reader.readAsDataURL(input.files[0]);
     }
+}
+
+// JavaScript funkcija koja obrađuje klik na naslov nekog od postova
+function handleTitleClick(title) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/Home/OpenPost", true);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                    window.location.href = '/PostPage/PostPage?postTitle=' + encodeURIComponent(title);
+                } else {
+                    console.error("Došlo je do greške!");
+                }
+            } else {
+                console.error("Došlo je do greške!");
+            }
+        }
+    };
+    xhr.send(JSON.stringify({ postTitle: title }));
 }
