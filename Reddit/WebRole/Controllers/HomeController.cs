@@ -11,8 +11,6 @@ namespace WebRole.Controllers
         // Prikaz početne stranice
         public ActionResult Index()
         {
-            List<Post> posts = new List<Post>();
-
             Post p1 = new Post();
             p1.Title = "Naslov posta 1";
             p1.Description = "Neki kratak opis 1";
@@ -21,7 +19,6 @@ namespace WebRole.Controllers
             p1.UserEmail = "neko@gmail.com";
             p1.Like = 0;
             p1.UnLike = 0;
-            posts.Add(p1);
 
             Post p2 = new Post();
             p2.Title = "Naslov posta 2";
@@ -31,7 +28,6 @@ namespace WebRole.Controllers
             p2.UserEmail = "neko@gmail.com";
             p2.Like = 0;
             p2.UnLike = 0;
-            posts.Add(p2);
 
             Post p3 = new Post();
             p3.Title = "Naslov posta 3";
@@ -41,9 +37,20 @@ namespace WebRole.Controllers
             p3.UserEmail = "neko@gmail.com";
             p3.Like = 0;
             p3.UnLike = 0;
-            posts.Add(p3);
 
-            return View(posts);
+            AppContext.homePagePostLists.AllPosts.Add(p1);
+            AppContext.homePagePostLists.AllPosts.Add(p2);
+            AppContext.homePagePostLists.AllPosts.Add(p3);
+            return View(AppContext.homePagePostLists);
         }
-	}
+
+        // POST: Home/OpenPost
+        // Obrada zahteva za otvaranje stranice sa nekom temom
+        [HttpPost]
+        public ActionResult OpenPost(string postTitle)
+        {
+            Debug.WriteLine("Primljen naslov teme: " + postTitle);
+            return Json(new { success = true, postTitle = postTitle });
+        }
+    }
 }
