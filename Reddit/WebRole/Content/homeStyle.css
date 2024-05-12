@@ -44,3 +44,12 @@ p {
     margin: 0 auto;
     margin-bottom: 10px;
 }
+
+.hidden-button {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    outline: none;
+}

@@ -2,8 +2,7 @@
     ViewBag.Title = "Home Page";
 }
 
-@model List<Models.Post>
-
+@model Models.HomePagePostLists
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,16 +14,49 @@
     <link href="~/Content/postStyle.css" rel="stylesheet" />
     <link href="~/Content/modalStyle.css" rel="stylesheet" />
     <link href="~/Content/homeStyle.css" rel="stylesheet" />
-    <link href="~/Content/commentStyle.css" rel="stylesheet" />
     <script src="~/Scripts/postFunctions.js"></script>
     <script src="~/Scripts/postValidation.js"></script>
-    <script src="~/Scripts/commentFunctions.js"></script>
     <script src="~/Scripts/openCloseModal.js"></script>
     <script src="~/Scripts/searchAndSortPost.js"></script>
 </head>
 <body>
     <header>
         <h1>Reddit</h1>
+    </header>
+    <br>
+    <header>
+        <h3>Moje teme</h3>
+    </header>
+
+    <!-- Prikaz za pretragu, sortiranje i dodavanje novog posta -->
+    <div class="sidebar-container">
+        <div class="sidebar">
+            <div class="button-container">
+                <button id="openModal">Dodavanje novog posta</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Postovi -->
+    @if (Model.MyPosts.Count == 0)
+    {
+        <br>
+    }
+    else
+    {
+        foreach (var post in Model.MyPosts)
+        {
+            <div class="post">
+                <h2>@post.Title</h2>
+                <span class="delete-post" onclick="deletePost()">
+                    <img class="delete-post-icon" src="~/Images/Icons/trash-icon.jpg" alt="Brisanje">
+                </span>
+            </div>
+        }
+    }
+
+    <header>
+        <h3>Sve teme</h3>
     </header>
 
     <!-- Prikaz za pretragu, sortiranje i dodavanje novog posta -->
@@ -35,52 +67,22 @@
                 <option value="">Sortiranje...</option>
                 <option value="Sortiranje po nazivu">Naziv posta</option>
             </select>
-            <div class="button-container">
-                <button id="openModal">Dodavanje novog posta</button>
-            </div>
         </div>
     </div>
 
-    <!-- Postovi -->
-    @foreach (var post in Model)
+    @if (Model.AllPosts.Count == 0)
     {
-        <div class="post">
-            <span class="delete-post" onclick="deletePost()">
-                <img class="delete-post-icon" src="~/Images/Icons/trash-icon.jpg" alt="Brisanje">
-            </span>
-            <h2>@post.Title <span class="add-to-favorites favorite-star" onclick="addToFavorites(this)">★</span></h2>
-            <p>@post.Description</p>
-            @if (!string.IsNullOrEmpty(post.Image))
-            {
-                <img id="postImage" src="@Url.Content(post.Image)" alt="Slika">
-            }
-            <p class="post-meta">Post je objavio - @post.UserEmail</p>
-            <div class="like-unlike-wrapper">
-                <div class="like-unlike-container">
-                    <div class="like" id="likeBtn">&#x1F44D;</div>
-                    <div class="like-count" id="likeCountDisplay">@post.Like</div>
-                </div>
-                <div class="like-unlike-container">
-                    <div class="unlike" id="unlikeBtn">&#x1F44E;</div>
-                    <div class="unlike-count" id="unlikeCountDisplay">@post.UnLike</div>
-                </div>
+        <br>
+    }
+    else
+    {
+        <!-- Postovi -->
+        foreach (var post in Model.AllPosts)
+        {
+            <div class="post">
+                <h2><button class="hidden-button" onclick="handleTitleClick('@post.Title')" id="postTitle">@post.Title</button> <span class="add-to-favorites favorite-star" onclick="addToFavorites(this)">★</span></h2>
             </div>
-            <div class="toggle-comments">+</div>
-            <!-- Komentari -->
-            <div class="comments">
-                @foreach (var comment in post.Comments)
-                {
-                    <div class="comment">@comment.Text</div>
-                    <div class="comment-meta">Komentarisao je - @comment.UserEmail</div>
-                    <div style="margin-bottom:20px;"></div>
-                }
-                <!-- Dodavanje novog komentara -->
-                <div class="new-comment">
-                    <input type="text" class="comment-input" placeholder="Napiši komentar">
-                    <button class="add-comment">Dodaj komentar</button>
-                </div>
-            </div>
-        </div>
+        }
     }
 
     <!-- Modal  za dodavanje novo posta -->
