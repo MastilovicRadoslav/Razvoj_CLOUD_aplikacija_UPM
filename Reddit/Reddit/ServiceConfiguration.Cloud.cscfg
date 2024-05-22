@@ -12,6 +12,12 @@
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
     </ConfigurationSettings>
   </Role>
+  <Role name="NotificationService">
+    <Instances count="3" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+    </ConfigurationSettings>
+  </Role>
   <NetworkConfiguration>
     <VirtualNetworkSite name="redditVNet" />
     <AddressAssignments>
@@ -21,6 +27,11 @@
         </Subnets>
       </InstanceAddress>
       <InstanceAddress roleName="HealthMonitoringService">
+        <Subnets>
+          <Subnet name="WebTier" />
+        </Subnets>
+      </InstanceAddress>
+      <InstanceAddress roleName="NotificationService">
         <Subnets>
           <Subnet name="WebTier" />
         </Subnets>
