@@ -7,6 +7,10 @@ Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "Reddit", "Reddit\Reddit.ccp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebRole", "WebRole\WebRole.csproj", "{11C1DA40-941E-4A8B-83EB-771C888B685E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{8AED9736-D0D1-4CAE-80D3-7C672BA62070}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthMonitoringService", "HealthMonitoringService\HealthMonitoringService.csproj", "{D4BEDBE8-E66D-4330-B82E-E5715D1F987B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{11C1DA40-941E-4A8B-83EB-771C888B685E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11C1DA40-941E-4A8B-83EB-771C888B685E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11C1DA40-941E-4A8B-83EB-771C888B685E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AED9736-D0D1-4CAE-80D3-7C672BA62070}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AED9736-D0D1-4CAE-80D3-7C672BA62070}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AED9736-D0D1-4CAE-80D3-7C672BA62070}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AED9736-D0D1-4CAE-80D3-7C672BA62070}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4BEDBE8-E66D-4330-B82E-E5715D1F987B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4BEDBE8-E66D-4330-B82E-E5715D1F987B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4BEDBE8-E66D-4330-B82E-E5715D1F987B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4BEDBE8-E66D-4330-B82E-E5715D1F987B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
