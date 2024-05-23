@@ -54,13 +54,13 @@ namespace HealthMonitoringService
 
         private async Task MonitorWebRoleStatusAsync()
         {
-            /*bool serviceRedditAvailable = serviceRedditProxy.CheckServiceStatus();
+            bool serviceRedditAvailable = serviceRedditProxy.CheckServiceStatus();
             if (serviceRedditAvailable)
             {
                 Trace.WriteLine("RedditService is running!");
                 // ste = new StatusTableEntry("PortfolioStatus","OK");
                 // hms.InsertPortfolioStatus(ste);
-            }*/
+            }
             bool notificationServicaAvailable = serviceNotificationProxy.CheckServiceStatus();
             if (notificationServicaAvailable)
             {
@@ -83,7 +83,7 @@ namespace HealthMonitoringService
             // For information on handling configuration changes
             // see the MSDN topic at https://go.microsoft.com/fwlink/?LinkId=166357.
 
-            //ConnecToReddit();
+            ConnecToReddit();
             ConnecToNotificationService();
 
             bool result = base.OnStart();
@@ -137,11 +137,11 @@ namespace HealthMonitoringService
         {
             if (serviceRedditProxy == null)
             {
-                //ConnecToReddit();
+                ConnecToReddit();
             }
             try
             {
-                //serviceRedditProxy.CheckServiceStatus();
+                serviceRedditProxy.CheckServiceStatus();
             }
             catch (CommunicationException ex)
             {
@@ -170,7 +170,7 @@ namespace HealthMonitoringService
 
         public void ConnecToReddit()
         {
-            var endpoint = RoleEnvironment.Roles["RedditService"].Instances[0].InstanceEndpoints[""];
+            var endpoint = RoleEnvironment.Roles["RedditService"].Instances[0].InstanceEndpoints["HealthCheck"];
             var address = new EndpointAddress($"net.tcp://{endpoint.IPEndpoint}/Service");
             var binding = new NetTcpBinding();
             ChannelFactory<ICheckServiceStatus> factory = new ChannelFactory<ICheckServiceStatus>(binding, address);

@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthMonitoringService", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService", "NotificationService\NotificationService.csproj", "{C338073C-451A-4602-B983-88B398A53BD3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedditService", "RedditService\RedditService.csproj", "{4F0A70B6-6444-472A-90F1-C1DDEF88DD98}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{C338073C-451A-4602-B983-88B398A53BD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C338073C-451A-4602-B983-88B398A53BD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C338073C-451A-4602-B983-88B398A53BD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F0A70B6-6444-472A-90F1-C1DDEF88DD98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F0A70B6-6444-472A-90F1-C1DDEF88DD98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F0A70B6-6444-472A-90F1-C1DDEF88DD98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F0A70B6-6444-472A-90F1-C1DDEF88DD98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

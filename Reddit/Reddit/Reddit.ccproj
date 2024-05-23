@@ -55,6 +55,14 @@
       <RoleName>NotificationService</RoleName>
       <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
     </ProjectReference>
+    <ProjectReference Include="..\RedditService\RedditService.csproj">
+      <Name>RedditService</Name>
+      <Project>{4f0a70b6-6444-472a-90f1-c1ddef88dd98}</Project>
+      <Private>True</Private>
+      <RoleType>Worker</RoleType>
+      <RoleName>RedditService</RoleName>
+      <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
+    </ProjectReference>
     <ProjectReference Include="..\WebRole\WebRole.csproj">
       <Name>WebRole</Name>
       <Project>{11c1da40-941e-4a8b-83eb-771c888b685e}</Project>
@@ -66,11 +74,14 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="HealthMonitoringServiceContent\" />
+    <Folder Include="NotificationServiceContent\" />
+    <Folder Include="RedditServiceContent\" />
     <Folder Include="WebRoleContent\" />
   </ItemGroup>
   <ItemGroup>
     <DiagnosticsConfiguration Include="HealthMonitoringServiceContent\diagnostics.wadcfgx" />
     <DiagnosticsConfiguration Include="NotificationServiceContent\diagnostics.wadcfgx" />
+    <DiagnosticsConfiguration Include="RedditServiceContent\diagnostics.wadcfgx" />
     <DiagnosticsConfiguration Include="WebRoleContent\diagnostics.wadcfgx" />
   </ItemGroup>
   <!-- Import the target files for this project template -->
