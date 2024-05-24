@@ -14,6 +14,7 @@ namespace RedditService
         private readonly ManualResetEvent runCompleteEvent = new ManualResetEvent(false);
         ServiceHost serviceHost;
         private readonly string internalEndpointName = "HealthCheck";
+        private readonly static UserServer UserServer = new UserServer();
 
         public override void Run()
         {
@@ -56,6 +57,7 @@ namespace RedditService
             }
 
             bool result = base.OnStart();
+            UserServer.Open();
 
             Trace.TraceInformation("RedditService has been started");
 
@@ -70,6 +72,7 @@ namespace RedditService
             this.runCompleteEvent.WaitOne();
 
             base.OnStop();
+            UserServer.Close();
 
             Trace.TraceInformation("RedditService has stopped");
         }
