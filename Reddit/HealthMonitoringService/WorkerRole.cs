@@ -1,4 +1,6 @@
+using Common.Entities;
 using Common.Interfaes;
+using Common.Repositories;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using Polly;
 using System;
@@ -14,6 +16,7 @@ namespace HealthMonitoringService
     {
         private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         private readonly ManualResetEvent runCompleteEvent = new ManualResetEvent(false);
+        private readonly HealthStatusRepository healthStatusRepo = new HealthStatusRepository();
         private ICheckServiceStatus serviceRedditProxy;
         private ICheckServiceStatus serviceNotificationProxy;
 
@@ -58,15 +61,13 @@ namespace HealthMonitoringService
             if (serviceRedditAvailable)
             {
                 Trace.WriteLine("RedditService is running!");
-                // ste = new StatusTableEntry("PortfolioStatus","OK");
-                // hms.InsertPortfolioStatus(ste);
+                healthStatusRepo.Create(new HealthStatus("RedditService") { ServiceType = "RedditService", Status = "OK" });
             }
             bool notificationServicaAvailable = serviceNotificationProxy.CheckServiceStatus();
             if (notificationServicaAvailable)
             {
                 Trace.WriteLine("NotificationService is running!");
-                //ste = new StatusTableEntry("NotificationStatus", "OK");
-                //hms.InsertNotificationStatus(ste);
+                healthStatusRepo.Create(new HealthStatus("NotificationService") { ServiceType = "NotificationService", Status = "OK" });
             }
 
             await Task.Delay(5000);
@@ -146,8 +147,7 @@ namespace HealthMonitoringService
             catch (CommunicationException ex)
             {
                 Trace.WriteLine($"Reddit is down! {ex} \n Reconnecting...");
-                //ste = new StatusTableEntry("PortfolioStatus", "NOT_OK");
-                // hms.InsertPortfolioStatus(ste);
+                healthStatusRepo.Create(new HealthStatus("RedditService") { ServiceType = "RedditService", Status = "NOT_OK" });
                 ConnecToReddit();
             }
 
@@ -162,8 +162,7 @@ namespace HealthMonitoringService
             catch (CommunicationException ex)
             {
                 Trace.WriteLine($"Notification is down! {ex} \n Reconnecting...");
-                // ste = new StatusTableEntry("NotificationStatus", "NOT_OK");
-                // hms.InsertNotificationStatus(ste);
+                healthStatusRepo.Create(new HealthStatus("NotificationService") { ServiceType = "NotificationService", Status = "NOT_OK" });
                 ConnecToNotificationService();
             }
         }
