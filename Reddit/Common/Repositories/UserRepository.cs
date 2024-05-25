@@ -38,8 +38,8 @@ namespace Common.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Exception during query: {ex.Message}");
-                throw;
+               
+                throw new Exception($"{ex}");
             }
         }
 
@@ -54,13 +54,11 @@ namespace Common.Repositories
                 {
                     throw new InvalidOperationException("Failed to insert user into Azure Table Storage.");
                 }
-
-                Console.WriteLine($"Insert operation HTTP status code: {result.HttpStatusCode}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Exception during insert operation: {ex.Message}");
-                throw;
+
+                throw new Exception($"{ex}");
             }
         }
 
@@ -96,7 +94,6 @@ namespace Common.Repositories
                     existingUser.Email = user.Email;
                     existingUser.Password = user.Password;
                     existingUser.Image = user.Image;
-
                     TableOperation updateOperation = TableOperation.Replace(existingUser);
                     _table.Execute(updateOperation);
                     return;

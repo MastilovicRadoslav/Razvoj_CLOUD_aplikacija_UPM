@@ -36,12 +36,9 @@ namespace Common.Repositories
                 {
                     throw new InvalidOperationException("Failed to insert user into Azure Table Storage.");
                 }
-
-                //Debug.WriteLine($"Insert operation HTTP status code: {result.HttpStatusCode}");
             }
             catch (Exception ex)
             {
-                //Debug.WriteLine($"Exception during insert operation: {ex.Message}");
                 throw new Exception($"{ex}");
             }
         }
