@@ -10,6 +10,7 @@
     <Instances count="2" />
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="HealthStatusConnectionString" value="UseDevelopmentStorage=true" />
     </ConfigurationSettings>
   </Role>
   <Role name="NotificationService">

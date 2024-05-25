@@ -18,6 +18,7 @@
   <WorkerRole name="HealthMonitoringService" vmsize="Standard_D1_v2">
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
+      <Setting name="HealthStatusConnectionString" />
     </ConfigurationSettings>
     <Endpoints>
       <InternalEndpoint name="NotificationHealth" protocol="tcp" />
