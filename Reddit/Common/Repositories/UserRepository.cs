@@ -38,7 +38,6 @@ namespace Common.Repositories
             }
             catch (Exception ex)
             {
-               
                 throw new Exception($"{ex}");
             }
         }
@@ -57,7 +56,6 @@ namespace Common.Repositories
             }
             catch (Exception ex)
             {
-
                 throw new Exception($"{ex}");
             }
         }
