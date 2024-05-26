@@ -41,6 +41,7 @@
     <Endpoints>
       <InternalEndpoint name="HealthCheck" protocol="tcp" />
       <InputEndpoint name="UserService" protocol="tcp" port="10100" />
+      <InputEndpoint name="PostService" protocol="tcp" port="10101" />
     </Endpoints>
   </WorkerRole>
 </ServiceDefinition>
