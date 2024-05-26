@@ -203,6 +203,7 @@
     <Content Include="Scripts\postValidation.js" />
     <Content Include="Scripts\profileValidation.js" />
     <Content Include="Scripts\registrationValidation.js" />
+    <Content Include="Scripts\searchAndSortPost.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

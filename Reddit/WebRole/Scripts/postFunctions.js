@@ -27,8 +27,18 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // JavaScript funkcija za brisanje posta
-function deletePost() {
-    alert('Obrisan');
+function deletePost(postId) {
+    $.ajax({
+        url: '/Home/DeletePost',
+        type: 'POST',
+        data: { postId: postId },
+        success: function (response) {
+                alert('Obrisali ste post!');
+        },
+        error: function (xhr, status, error) {
+            alert('Došlo je do greške: ' + error);
+        }
+    });
 }
 
 // JavaScript funkcija za dodavanje posta u favorite
@@ -63,8 +73,9 @@ function showImage(input) {
 }
 
 // JavaScript funkcija koja obrađuje klik na naslov nekog od postova
-function handleTitleClick(title) {
+function handleTitleClick(id) {
     var xhr = new XMLHttpRequest();
+    console.log(id)
     xhr.open("POST", "/Home/OpenPost", true);
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhr.onreadystatechange = function () {
@@ -72,7 +83,7 @@ function handleTitleClick(title) {
             if (xhr.status === 200) {
                 var response = JSON.parse(xhr.responseText);
                 if (response.success) {
-                    window.location.href = '/PostPage/PostPage?postTitle=' + encodeURIComponent(title);
+                    window.location.href = '/PostPage/PostPage?postId=' + encodeURIComponent(id);
                 } else {
                     console.error("Došlo je do greške!");
                 }
@@ -81,5 +92,5 @@ function handleTitleClick(title) {
             }
         }
     };
-    xhr.send(JSON.stringify({ postTitle: title }));
+    xhr.send(JSON.stringify({ postId: id }));
 }

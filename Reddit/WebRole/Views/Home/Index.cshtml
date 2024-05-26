@@ -18,6 +18,12 @@
     <script src="~/Scripts/postValidation.js"></script>
     <script src="~/Scripts/openCloseModal.js"></script>
     <script src="~/Scripts/searchAndSortPost.js"></script>
+    <script type="text/javascript">
+    var alertMessage = '@ViewBag.AlertMessage';
+    if (alertMessage) {
+        alert(alertMessage);
+    }
+    </script>
 </head>
 <body>
     <header>
@@ -48,7 +54,7 @@
         {
             <div class="post">
                 <h2>@post.Title</h2>
-                <span class="delete-post" onclick="deletePost()">
+                <span class="delete-post" onclick="deletePost('@post.Id')">
                     <img class="delete-post-icon" src="~/Images/Icons/trash-icon.jpg" alt="Brisanje">
                 </span>
             </div>
@@ -69,44 +75,45 @@
             </select>
         </div>
     </div>
-
-    @if (Model.AllPosts.Count == 0)
-    {
-        <br>
-    }
-    else
-    {
-        <!-- Postovi -->
-        foreach (var post in Model.AllPosts)
+    <div id="allPostsContainer">
+        @if (Model.AllPosts.Count == 0)
         {
-            <div class="post">
-                <h2><button class="hidden-button" onclick="handleTitleClick('@post.Title')" id="postTitle">@post.Title</button> <span class="add-to-favorites favorite-star" onclick="addToFavorites(this)">★</span></h2>
-            </div>
+            <br>
         }
-    }
-
-    <!-- Modal  za dodavanje novo posta -->
-    <div id="myModal" class="modal">
-        <div class="modal-container">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <div class="modal-header">
-                    <h2 class="titleStyle">Novi post</h2>
+        else
+        {
+            <!-- Postovi -->
+            foreach (var post in Model.AllPosts)
+            {
+                <div class="post">
+                    <h2><button class="hidden-button" onclick="handleTitleClick('@post.Id')" id="@post.Id">@post.Title</button> <span class="add-to-favorites favorite-star" onclick="addToFavorites(this)">★</span></h2>
                 </div>
-                <div class="modal-body">
-                    <form id="postForm" method="post" action="/Home/Addnewpost">
-                        <label for="postTitle">Tema:</label><br>
-                        <input type="text" id="postTitle" name="postTitle"><br><br>
-                        <label for="postDescription">Opis:</label><br>
-                        <textarea id="postDescription" name="postDescription"></textarea><br><br>
-                        <label for="postImage">Slika:</label><br>
-                        <input type="file" id="image" name="image" onchange="showImage(this)" accept="image/*" /><br><br>
-                        <img id="newPostImage" src="" alt="Slika za post"><br><br>
-                        <input type="button" class="btn btn-outline-dark custom-button" onclick="ValidateAndSubmitPost()" value="Dodaj novi post">
-                    </form>
+            }
+        }
+        <div />
+
+        <!-- Modal  za dodavanje novo posta -->
+        <div id="myModal" class="modal">
+            <div class="modal-container">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <div class="modal-header">
+                        <h2 class="titleStyle">Novi post</h2>
+                    </div>
+                    <div class="modal-body">
+                        <form id="postForm" method="post" action="/Home/AddNewPost">
+                            <label for="postTitle">Tema:</label><br>
+                            <input type="text" id="postTitleModal" name="postTitleModal"><br><br>
+                            <label for="postDescription">Opis:</label><br>
+                            <textarea id="postDescriptionModal" name="postDescriptionModal"></textarea><br><br>
+                            <label for="postImage">Slika:</label><br>
+                            <input type="file" id="imageModal" name="imageModal" onchange="showImage(this)" accept="image/*" /><br><br>
+                            <img id="newPostImage" src="" alt="Slika za post"><br><br>
+                            <input type="button" class="btn btn-outline-dark custom-button" onclick="ValidateAndSubmitPost()" value="Dodaj novi post">
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 </body>
 </html>
