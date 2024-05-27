@@ -28,7 +28,11 @@ namespace HealthMonitoringService
             {
                 this.RunWithRetryAsync(this.cancellationTokenSource.Token).Wait();
             }
-            finally
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex);
+			}
+			finally
             {
                 this.runCompleteEvent.Set();
             }
