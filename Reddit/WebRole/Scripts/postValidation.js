@@ -1,7 +1,7 @@
 // JavaScript za validaciju i dodavanje posta 
 function ValidatePost() {
-    const title = document.getElementById("postTitle").value.trim();
-    const description = document.getElementById("postDescription").value.trim();
+    const title = document.getElementById("postTitleModal").value.trim();
+    const description = document.getElementById("postDescriptionModal").value.trim();
 
     if (title.length === 0) {
         alert("Tema posta mora biti popunjena!");
