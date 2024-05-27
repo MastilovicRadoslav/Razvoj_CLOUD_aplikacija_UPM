@@ -12,7 +12,7 @@ namespace RedditService
 
         public void AddPost(PostData post)
         {
-            repository.Create(new PostData(post.Title) { Title = post.Title, Description = post.Description, Image = post.Image, UserEmail = post.UserEmail, Like = post.Like, UnLike = post.UnLike });
+            repository.Create(new PostData(post.Title) { Id = post.Id, Title = post.Title, Description = post.Description, Image = post.Image, UserEmail = post.UserEmail, Like = post.Like, UnLike = post.UnLike });
         }
 
         public List<PostData> GetAllPosts()
