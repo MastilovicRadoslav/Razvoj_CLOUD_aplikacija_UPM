@@ -16,6 +16,8 @@ namespace RedditService
         private readonly string internalEndpointName = "HealthCheck";
         private readonly static UserServer UserServer = new UserServer();
         private readonly static PostServer PostServer = new PostServer();
+        private readonly static CommentServer CommentServer = new CommentServer();
+        private readonly static FavouritesServer FavouritesServer = new FavouritesServer();
 
         public override void Run()
         {
@@ -60,6 +62,8 @@ namespace RedditService
             bool result = base.OnStart();
             UserServer.Open();
             PostServer.Open();
+            CommentServer.Open();
+            FavouritesServer.Open();
 
             Trace.TraceInformation("RedditService has been started");
 
@@ -76,6 +80,8 @@ namespace RedditService
             base.OnStop();
             UserServer.Close();
             PostServer.Close();
+            CommentServer.Close();
+            FavouritesServer.Close();
 
             Trace.TraceInformation("RedditService has stopped");
         }
