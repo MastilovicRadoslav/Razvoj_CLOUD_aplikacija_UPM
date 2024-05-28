@@ -1,6 +1,7 @@
 using Common.Entities;
 using Common.Interfaes;
 using Common.Repositories;
+using Microsoft.AspNet.SignalR.Client;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using Polly;
 using System;
@@ -28,11 +29,11 @@ namespace HealthMonitoringService
             {
                 this.RunWithRetryAsync(this.cancellationTokenSource.Token).Wait();
             }
-			catch (Exception ex)
-			{
-				Debug.WriteLine(ex);
-			}
-			finally
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            finally
             {
                 this.runCompleteEvent.Set();
             }
@@ -152,6 +153,11 @@ namespace HealthMonitoringService
             {
                 Trace.WriteLine($"Reddit is down! {ex} \n Reconnecting...");
                 healthStatusRepo.Create(new HealthStatus("RedditService") { ServiceType = "RedditService", Status = "NOT_OK" });
+                var connection = new HubConnection("http://localhost:8080");
+                var myHub = connection.CreateHubProxy("AdminHub");
+                connection.Start().Wait();
+                string message = "1";
+                myHub.Invoke("SendMessage", "RedditService", message).Wait();
                 ConnecToReddit();
             }
 
@@ -167,6 +173,11 @@ namespace HealthMonitoringService
             {
                 Trace.WriteLine($"Notification is down! {ex} \n Reconnecting...");
                 healthStatusRepo.Create(new HealthStatus("NotificationService") { ServiceType = "NotificationService", Status = "NOT_OK" });
+                var connection = new HubConnection("http://localhost:8080");
+                var myHub = connection.CreateHubProxy("AdminHub");
+                connection.Start().Wait();
+                string message = "1";
+                myHub.Invoke("SendMessage", "NotificationService", message).Wait();
                 ConnecToNotificationService();
             }
         }
@@ -178,7 +189,6 @@ namespace HealthMonitoringService
             var binding = new NetTcpBinding();
             ChannelFactory<ICheckServiceStatus> factory = new ChannelFactory<ICheckServiceStatus>(binding, address);
             serviceRedditProxy = factory.CreateChannel();
-
         }
 
         public void ConnecToNotificationService()
