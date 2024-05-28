@@ -19,17 +19,30 @@ document.addEventListener("DOMContentLoaded", function () {
         button.addEventListener('click', function () {
             var commentInput = this.previousElementSibling;
             var commentText = commentInput.value;
+            var postId = document.getElementById('postId').value;
+
             if (commentText.trim() !== '') {
-                var commentContainer = this.parentElement.parentElement;
-                var newComment = document.createElement('div');
-                newComment.classList.add('comment');
-                newComment.textContent = commentText;
-                var newCommentMeta = document.createElement('div');
-                newCommentMeta.classList.add('comment-meta');
-                newCommentMeta.textContent = 'Komentarisao je - User';
-                commentContainer.insertBefore(newComment, this.parentElement);
-                commentContainer.insertBefore(newCommentMeta, this.parentElement);
-                commentInput.value = '';
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/PostPage/NewComment', true);
+                xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        if (response.success) {
+                            var commentContainer = button.parentElement.parentElement;
+                            var newComment = document.createElement('div');
+                            newComment.classList.add('comment');
+                            newComment.textContent = commentText;
+                            var newCommentMeta = document.createElement('div');
+                            newCommentMeta.classList.add('comment-meta');
+                            newCommentMeta.textContent = 'Komentarisao je - ' + response.userEmail;
+                            commentContainer.insertBefore(newComment, button.parentElement);
+                            commentContainer.insertBefore(newCommentMeta, button.parentElement);
+                            commentInput.value = '';
+                        }
+                    }
+                };
+                xhr.send(JSON.stringify({ postId: postId, commentText: commentText }));
             }
         });
     });

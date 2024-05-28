@@ -31,30 +31,25 @@ function deletePost(postId) {
     $.ajax({
         url: '/Home/DeletePost',
         type: 'POST',
-        data: { postId: postId },
-        success: function (response) {
-                alert('Obrisali ste post!');
-        },
-        error: function (xhr, status, error) {
-            alert('Došlo je do greške: ' + error);
-        }
+        data: { postId: postId }
     });
+    alert('Obrisali ste post!');
+    window.location.reload();
 }
 
 // JavaScript funkcija za dodavanje posta u favorite
 var isFirstClick = true;
-function addToFavorites(element) {
-    var title = element.parentElement;
-    var originalTitle = title.textContent.trim();
-    var printTitle = originalTitle.replace('★', '').trim();
-
+function addToFavorites(element, postId) {
     if (element.style.color === 'black' || isFirstClick) {
         element.style.color = 'yellow';
-        alert("Post sa naslovom '" + printTitle + "' ste dodali u favorite");
         isFirstClick = false;
-    } else {
-        element.style.color = 'black';
-        alert("Post sa naslovom '" + printTitle + "' ste uklonili iz favorita");
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/Home/AddToFavorites", true);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        var data = JSON.stringify({ postId: postId });
+        xhr.send(data);
+        alert("Post ste dodali u favorite!");
     }
 }
 
