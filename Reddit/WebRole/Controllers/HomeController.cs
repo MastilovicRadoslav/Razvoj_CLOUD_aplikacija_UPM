@@ -3,14 +3,20 @@ using Common.Interfaces;
 using Models;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Web.Mvc;
+using WebRole.Blob;
+using WebRole.ImagePathConverter;
 using WebRole.UniversalConnector;
 
 namespace WebRole.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly PostPathConverter pathConverter = new PostPathConverter();
+        private readonly BlobHelper blobHelper = new BlobHelper();
+
         // GET: Home page
         // Prikaz početne stranice
         public ActionResult Index()
@@ -28,7 +34,13 @@ namespace WebRole.Controllers
                 serviceConnector.Connect("net.tcp://localhost:10101/PostService");
                 IPostService postService = serviceConnector.GetProxy();
 
+                // Connect to the comment service
+                ServiceConnector<ICommentService> serviceConnectorComment = new ServiceConnector<ICommentService>();
+                serviceConnectorComment.Connect("net.tcp://localhost:10102/CommentService");
+                ICommentService commentService = serviceConnectorComment.GetProxy();
+
                 List<PostData> allPostsFromTable = postService.GetAllPosts();
+                List<CommentData> allCommentsFromTable = commentService.GetAllComments();
                 List<Post> allPosts = new List<Post>();
                 List<Post> myPosts = new List<Post>();
                 foreach (var postData in allPostsFromTable)
@@ -44,6 +56,21 @@ namespace WebRole.Controllers
                         Like = postData.Like,
                         UnLike = postData.UnLike
                     };
+
+                    foreach (var commentData in allCommentsFromTable)
+                    {
+                        if (commentData.PostId == postData.Id)
+                        {
+                            Comment comment = new Comment
+                            {
+                                Text = commentData.Text,
+                                UserEmail = commentData.UserEmail,
+                                PostId = commentData.PostId
+                            };
+                            post.Comments.Add(comment);
+                        }
+                    }
+
                     allPosts.Add(post);
 
                     if (post.UserEmail.Equals(loggedInUser.Email))
@@ -89,11 +116,32 @@ namespace WebRole.Controllers
                 User loggedInUser = (User)Session["LoggedInUser"];
                 newPost.Title = postTitle;
                 newPost.Description = postDescription;
-                newPost.Image = postImage;
+                newPost.Image = pathConverter.ReplacePath(postImage);
                 newPost.UserEmail = loggedInUser.Email;
                 newPost.Like = 0;
                 newPost.UnLike = 0;
                 postdata = new PostData(newPost.Title, newPost.Description, newPost.Image, newPost.UserEmail, newPost.Like, newPost.UnLike);
+
+                if (postImage != string.Empty)
+                {
+                    string imagePath = pathConverter.ReplacePath(postImage);
+                    string projectDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
+                    string pathToImageInProject = projectDirectory + imagePath;
+                    if (!System.IO.File.Exists(pathToImageInProject))
+                    {
+                        Debug.WriteLine("Image does not exist at the specified path: " + imagePath);
+                    }
+                    else
+                    {
+                        using (Image imageToBlob = Image.FromFile(pathToImageInProject))
+                        {
+                            string containerName = "redditpostimages";
+                            string blobName = string.Format("image_{0}", newPost.Id);
+                            string imageUrl = blobHelper.UploadImage(imageToBlob, containerName, blobName);
+                            Debug.WriteLine("Image uploaded to: " + imageUrl);
+                        }
+                    }
+                }
 
                 // Connect to the post service
                 ServiceConnector<IPostService> serviceConnector = new ServiceConnector<IPostService>();
@@ -170,6 +218,30 @@ namespace WebRole.Controllers
                         AppContext.homePagePostLists.AllPosts.Remove(postToRemove);
                         AppContext.homePagePostLists.MyPosts.Remove(postToRemove);
                     }
+                }
+            }
+            return RedirectToAction("Home", "Index");
+        }
+
+        // POST: Home/AddToFavorites
+        // Obrada dodavanja posta u favorite
+        [HttpPost]
+        public ActionResult AddToFavorites(int postId)
+        {
+            if (postId >= 0)
+            {
+                Debug.WriteLine("Ispis IDa posta: " + postId);
+
+                // Connect to the post service
+                ServiceConnector<IFavouritesService> serviceConnector = new ServiceConnector<IFavouritesService>();
+                serviceConnector.Connect("net.tcp://localhost:10103/FavouritesService");
+                IFavouritesService favouritesService = serviceConnector.GetProxy();
+
+                User loggedInUser = (User)Session["LoggedInUser"];
+                if (loggedInUser != null)
+                {
+                    Favourites newFav = new Favourites(postId, loggedInUser.Email);
+                    favouritesService.AddToFavourites(newFav);
                 }
             }
             return RedirectToAction("Home", "Index");

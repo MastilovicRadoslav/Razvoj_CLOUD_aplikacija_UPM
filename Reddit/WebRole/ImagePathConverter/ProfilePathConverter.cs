@@ -2,7 +2,7 @@
 
 namespace WebRole.ImagePathConverter
 {
-    public class PathConverter
+    public class ProfilePathConverter
     {
         public string ReplacePath(string path)
         {
