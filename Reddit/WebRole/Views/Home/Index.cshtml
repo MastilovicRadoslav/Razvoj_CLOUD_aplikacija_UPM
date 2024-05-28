@@ -86,7 +86,7 @@
             foreach (var post in Model.AllPosts)
             {
                 <div class="post">
-                    <h2><button class="hidden-button" onclick="handleTitleClick('@post.Id')" id="@post.Id">@post.Title</button> <span class="add-to-favorites favorite-star" onclick="addToFavorites(this)">★</span></h2>
+                    <h2><button class="hidden-button" onclick="handleTitleClick('@post.Id')" id="@post.Id">@post.Title</button> <span class="add-to-favorites favorite-star" onclick="addToFavorites(this, '@post.Id')">★</span></h2>
                 </div>
             }
         }
