@@ -54,6 +54,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\CommentData.cs" />
+    <Compile Include="Entities\Favourites.cs" />
     <Compile Include="Entities\HealthStatus.cs" />
     <Compile Include="Entities\PostData.cs" />
     <Compile Include="Entities\UserData.cs" />
