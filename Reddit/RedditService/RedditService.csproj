@@ -48,6 +48,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommentServer.cs" />
+    <Compile Include="CommentServiceProvider.cs" />
+    <Compile Include="FavouritesServer.cs" />
+    <Compile Include="FavouritesServiceProvider.cs" />
     <Compile Include="PostServer.cs" />
     <Compile Include="PostServiceProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

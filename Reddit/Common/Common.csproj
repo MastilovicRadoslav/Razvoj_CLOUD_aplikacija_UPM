@@ -60,11 +60,17 @@
     <Compile Include="Entities\PostData.cs" />
     <Compile Include="Entities\UserData.cs" />
     <Compile Include="Interfaces\ICheckServiceStatus.cs" />
+    <Compile Include="Interfaces\ICommentRepository.cs" />
+    <Compile Include="Interfaces\ICommentService.cs" />
+    <Compile Include="Interfaces\IFavouritesRepository.cs" />
+    <Compile Include="Interfaces\IFavouritesService.cs" />
     <Compile Include="Interfaces\IPostRepository.cs" />
     <Compile Include="Interfaces\IPostService.cs" />
     <Compile Include="Interfaces\IUserRepository.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\CommentRepository.cs" />
+    <Compile Include="Repositories\FavouritesRepository.cs" />
     <Compile Include="Repositories\HealthStatusRepository.cs" />
     <Compile Include="Repositories\PostRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />

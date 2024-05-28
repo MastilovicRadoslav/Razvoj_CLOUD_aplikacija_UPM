@@ -145,7 +145,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="ImagePathConverter\PathConverter.cs" />
+    <Compile Include="ImagePathConverter\PostPathConverter.cs" />
+    <Compile Include="ImagePathConverter\ProfilePathConverter.cs" />
     <Compile Include="Models\AppContext.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\HomePagePostLists.cs" />
@@ -188,6 +189,7 @@
     <Content Include="Images\Backgrounds\profile.jpg" />
     <Content Include="Images\Backgrounds\registration.jpg" />
     <Content Include="Images\Icons\trash-icon.jpg" />
+    <Content Include="Images\Posts\randomPost.jpg" />
     <Content Include="Images\Profile\AnaAnic.jpg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
