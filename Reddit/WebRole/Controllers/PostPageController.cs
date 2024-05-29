@@ -1,5 +1,7 @@
-﻿using Common.Entities;
+﻿using Common.Comment_queue;
+using Common.Entities;
 using Common.Interfaces;
+using Microsoft.WindowsAzure.Storage.Queue;
 using Models;
 using System.Diagnostics;
 using System.Linq;
@@ -45,6 +47,8 @@ namespace WebRole.Controllers
                         ICommentService commentService = serviceConnector.GetProxy();
 
                         commentService.AddComment(commentData);
+                        CloudQueue queue = QueueHelper.GetQueueReference("comments");
+                        queue.AddMessage(new CloudQueueMessage(commentData.ToString()), null, System.TimeSpan.FromMilliseconds(30));
 
                         Post post = AppContext.homePagePostLists.AllPosts.FirstOrDefault(p => p.Id == postId);
                         if (post != null)
