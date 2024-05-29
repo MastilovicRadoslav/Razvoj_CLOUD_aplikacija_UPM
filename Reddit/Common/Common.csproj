@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Comment queue\QueueHelper.cs" />
     <Compile Include="Entities\CommentData.cs" />
     <Compile Include="Entities\Favourites.cs" />
     <Compile Include="Entities\HealthStatus.cs" />
