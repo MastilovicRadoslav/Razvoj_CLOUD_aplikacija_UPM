@@ -34,7 +34,7 @@
     cursor: pointer;
 }
 
-#postImage[src=""] {
+#postImage[src="/Images/Posts/"] {
     display: none;
 }
 
