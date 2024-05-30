@@ -1,4 +1,4 @@
-using Common.Comment_queue;
+﻿using Common.Comment_queue;
 using Common.Entities;
 using Common.Interfaes;
 using Microsoft.WindowsAzure.ServiceRuntime;
@@ -121,7 +121,7 @@ namespace NotificationService
 
                         if (emails.Count != 0)
                         {
-                            string subject = "Postavljen je novi komentar na temu na koju ste pretpla�eni";
+                            string subject = "Postavljen je novi komentar na temu na koju ste pretplaćeni";
                             StringBuilder bodyBuilder = new StringBuilder();
                             foreach (var email in emails)
                             {
@@ -137,7 +137,7 @@ namespace NotificationService
                         Trace.TraceInformation("Informacije o poslatoj grupi notifikacija: ");
                         Trace.TraceInformation("|Datum i vreme: " + DateTime.Now + "|ID komentara: " + commentData.Id + "|Broj poslatih mejlova: " + emails.Count + "|");
 
-                        if (message.DequeueCount >= 2)
+                        if (message.DequeueCount >= 1)
                         {
                             queue.DeleteMessage(message);
                         }

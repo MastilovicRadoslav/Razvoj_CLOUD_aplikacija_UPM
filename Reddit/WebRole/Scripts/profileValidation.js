@@ -1,4 +1,4 @@
-// JavaScript za validaciju polja i potvrdu aûuriranja profila
+Ôªø// JavaScript za validaciju polja i potvrdu a≈æuriranja profila
 function ValidateEditProfile() {
     const fname = document.getElementById("fname").value.trim();
     const sname = document.getElementById("lname").value.trim();
@@ -39,11 +39,11 @@ function ValidateEditProfile() {
         return false;
     }
     else if (state.length === 0) {
-        alert("Polje za drûavu mora biti popunjeno!");
+        alert("Polje za dr≈æavu mora biti popunjeno!");
         return false;
     }
     else if (!/^[a-zA-Z\s]*$/.test(state)) {
-        alert("Za polje drûava se moraju uneti samo slova!");
+        alert("Za polje dr≈æava se moraju uneti samo slova!");
         return false;
     }
     else if (phoneNumber.length === 0) {
@@ -77,13 +77,13 @@ function ValidateEditProfile() {
 }
 
 function ValidateAndSubmitEditProfile() {
-    console.log('tu sam')
+    console.log('tu sam')                           //Izbaciti?
     if (ValidateEditProfile()) {
         document.querySelector("form").submit();
     }
 }
 
-/* DinamiËko prikazivanje odabrane slike */
+/* Dinamiƒçko prikazivanje odabrane slike */
 function previewImage(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
