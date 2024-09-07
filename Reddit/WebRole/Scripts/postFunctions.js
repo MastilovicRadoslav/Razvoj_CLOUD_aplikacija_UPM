@@ -1,5 +1,4 @@
-﻿// JavaScript funkcija za like/unlike posta
-document.addEventListener("DOMContentLoaded", function () {
+﻿document.addEventListener("DOMContentLoaded", function () {
     const likeCounts = [];
     const unlikeCounts = [];
     const likeButtons = document.querySelectorAll('.like');
@@ -8,23 +7,119 @@ document.addEventListener("DOMContentLoaded", function () {
     const unlikeCountDisplays = document.querySelectorAll('.unlike-count');
 
     likeButtons.forEach((button, index) => {
-        likeCounts[index] = 0;
+        likeCounts[index] = parseInt(likeCountDisplays[index].textContent);
 
         button.addEventListener('click', () => {
+            const postId = button.getAttribute('data-post-id');
+            if (button.disabled) return;
+
             likeCounts[index]++;
             likeCountDisplays[index].textContent = likeCounts[index];
+            button.disabled = true;
+            unlikeButtons[index].disabled = true;
+
+            fetch('/PostPage/LikePost', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ postId: postId })
+            }).then(response => response.json()).then(data => {
+                if (data.success) {
+                    likeCountDisplays[index].textContent = data.newLikeCount;
+                }
+            });
         });
     });
 
     unlikeButtons.forEach((button, index) => {
-        unlikeCounts[index] = 0;
+        unlikeCounts[index] = parseInt(unlikeCountDisplays[index].textContent);
 
         button.addEventListener('click', () => {
+            const postId = button.getAttribute('data-post-id');
+            if (button.disabled) return;
+
             unlikeCounts[index]++;
             unlikeCountDisplays[index].textContent = unlikeCounts[index];
+            button.disabled = true;
+            likeButtons[index].disabled = true;
+
+            fetch('/PostPage/UnlikePost', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ postId: postId })
+            }).then(response => response.json()).then(data => {
+                if (data.success) {
+                    unlikeCountDisplays[index].textContent = data.newUnlikeCount;
+                }
+            });
         });
     });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    const likeCountsComments = [];
+    const unlikeCountsComments = [];
+    const likeCommentButtons = document.querySelectorAll('.like-comment');
+    const unlikeCommentButtons = document.querySelectorAll('.unlike-comment');
+    const likeCountDisplays = document.querySelectorAll('.like-count-comment');
+    const unlikeCountDisplays = document.querySelectorAll('.unlike-count-comment');
+
+    likeCommentButtons.forEach((button, index) => {
+        likeCountsComments[index] = parseInt(likeCountDisplays[index].textContent);
+
+        button.addEventListener('click', () => {
+            const commentId = button.getAttribute('data-comment-id');
+            if (button.disabled) return;
+
+            likeCountsComments[index]++;
+            likeCountDisplays[index].textContent = likeCountsComments[index];
+            button.disabled = true;
+            unlikeCommentButtons[index].disabled = true;
+
+            fetch('/PostPage/LikeComment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ commentId: commentId })
+            }).then(response => response.json()).then(data => {
+                if (data.success) {
+                    likeCountDisplays[index].textContent = data.newLikeCount;
+                }
+            });
+        });
+    });
+
+    unlikeCommentButtons.forEach((button, index) => {
+        unlikeCountsComments[index] = parseInt(unlikeCountDisplays[index].textContent);
+
+        button.addEventListener('click', () => {
+            const commentId = button.getAttribute('data-comment-id');
+            if (button.disabled) return;
+
+            unlikeCountsComments[index]++;
+            unlikeCountDisplays[index].textContent = unlikeCountsComments[index];
+            button.disabled = true;
+            likeCommentButtons[index].disabled = true;
+
+            fetch('/PostPage/UnlikeComment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ commentId: commentId })
+            }).then(response => response.json()).then(data => {
+                if (data.success) {
+                    unlikeCountDisplays[index].textContent = data.newUnlikeCount;
+                }
+            });
+        });
+    });
+});
+
 
 // JavaScript funkcija za brisanje posta
 function deletePost(postId) {

@@ -22,7 +22,8 @@ namespace Common.Entities
 
         public UserData() { }
 
-        public UserData(string firstName, string lastName, string address, string city, string country, string phoneNumber, string email, string password, string image) : this(firstName)
+        public UserData(string firstName, string lastName, string address, string city,
+        string country, string phoneNumber, string email, string password, string image) : this(firstName)
         {
             FirstName = firstName;
             LastName = lastName;

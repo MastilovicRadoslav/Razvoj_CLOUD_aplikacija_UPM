@@ -22,7 +22,8 @@ namespace Common.Repositories
             }
 
             _storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("DataConnectionString"));
-            CloudTableClient tableClient = new CloudTableClient(new Uri(_storageAccount.TableEndpoint.AbsoluteUri), _storageAccount.Credentials);
+            CloudTableClient tableClient = new CloudTableClient(new Uri(_storageAccount.TableEndpoint.AbsoluteUri),
+            _storageAccount.Credentials);
             _table = tableClient.GetTableReference("UserTableTemp");
             _table.CreateIfNotExists();
         }

@@ -8,5 +8,6 @@ namespace Common.Interfaces
         void Create(CommentData comment);
         CommentData Read(int id);
         IQueryable<CommentData> ReadAll();
+        void Update(CommentData comment);  // Dodato
     }
 }

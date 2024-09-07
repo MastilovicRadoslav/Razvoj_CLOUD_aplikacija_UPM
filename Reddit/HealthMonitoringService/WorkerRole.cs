@@ -17,9 +17,12 @@ namespace HealthMonitoringService
     {
         private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         private readonly ManualResetEvent runCompleteEvent = new ManualResetEvent(false);
-        private readonly HealthStatusRepository healthStatusRepo = new HealthStatusRepository();
+        private readonly HealthStatusRepository healthStatusRepo = new HealthStatusRepository();  //Connection String HealthStatusConnectionString
         private ICheckServiceStatus serviceRedditProxy;
         private ICheckServiceStatus serviceNotificationProxy;
+        private DateTime startTime;
+        private bool redditServiceFailedOnce = false;
+        private bool notificationServiceFailedOnce = false;
 
         public override void Run()
         {
@@ -41,7 +44,6 @@ namespace HealthMonitoringService
 
         private async Task RunWithRetryAsync(CancellationToken token)
         {
-
             var retryPolicy = Policy
                 .Handle<CommunicationException>()
                 .Or<TimeoutException>()
@@ -52,7 +54,6 @@ namespace HealthMonitoringService
                     {
                         Trace.WriteLine($"Retry {retryCount} encountered a {exception.GetType().Name}. Waiting {timeSpan} before next retry. Exception: {exception.Message}");
                     });
-
 
             await retryPolicy.ExecuteAsync(async () =>
             {
@@ -68,8 +69,9 @@ namespace HealthMonitoringService
                 Trace.WriteLine("RedditService is running!");
                 healthStatusRepo.Create(new HealthStatus("RedditService") { ServiceType = "RedditService", Status = "OK" });
             }
-            bool notificationServicaAvailable = serviceNotificationProxy.CheckServiceStatus();
-            if (notificationServicaAvailable)
+
+            bool notificationServiceAvailable = serviceNotificationProxy.CheckServiceStatus();
+            if (notificationServiceAvailable)
             {
                 Trace.WriteLine("NotificationService is running!");
                 healthStatusRepo.Create(new HealthStatus("NotificationService") { ServiceType = "NotificationService", Status = "OK" });
@@ -91,6 +93,9 @@ namespace HealthMonitoringService
 
             ConnecToReddit();
             ConnecToNotificationService();
+
+            // Record the start time
+            startTime = DateTime.UtcNow;
 
             bool result = base.OnStart();
 
@@ -145,40 +150,62 @@ namespace HealthMonitoringService
             {
                 ConnecToReddit();
             }
+
+            // Simulate failure for RedditService after 30 seconds
             try
             {
+                if (!redditServiceFailedOnce && (DateTime.UtcNow - startTime).TotalSeconds > 120)
+                {
+                    redditServiceFailedOnce = true;
+                    throw new CommunicationException("RedditService is down (simulated)");
+                }
+
                 serviceRedditProxy.CheckServiceStatus();
             }
             catch (CommunicationException ex)
             {
-                Trace.WriteLine($"Reddit is down! {ex} \n Reconnecting...");
-                healthStatusRepo.Create(new HealthStatus("RedditService") { ServiceType = "RedditService", Status = "NOT_OK" });
-                var connection = new HubConnection("http://localhost:8080");
-                var myHub = connection.CreateHubProxy("AdminHub");
-                connection.Start().Wait();
-                string message = "1";
-                myHub.Invoke("SendMessage", "RedditService", message).Wait();
-                ConnecToReddit();
+                if (redditServiceFailedOnce)
+                {
+                    Trace.WriteLine($"RedditService is down! {ex.Message} \n Reconnecting...");
+                    healthStatusRepo.Create(new HealthStatus("RedditService") { ServiceType = "RedditService", Status = "NOT_OK" });
+                    var connection = new HubConnection("http://localhost:8080"); //HubConnection objekat se kreira na url koji pokrece AdminHub
+                    var myHub = connection.CreateHubProxy("AdminHub"); //Omogucava klijentu da poziva metode iz AdminHub
+                    connection.Start().Wait(); //ostaje konekcija
+                    string message = "1"; //za metodu
+                    myHub.Invoke("SendMessage", "RedditService", message).Wait(); //metoda
+                    ConnecToReddit();
+                }
             }
 
             if (serviceNotificationProxy == null)
             {
                 ConnecToNotificationService();
             }
+
+            // Simulate failure for NotificationService after 1 minute
             try
             {
+                if (!notificationServiceFailedOnce && (DateTime.UtcNow - startTime).TotalSeconds > 150)
+                {
+                    notificationServiceFailedOnce = true;
+                    throw new CommunicationException("NotificationService is down (simulated)");
+                }
+
                 serviceNotificationProxy.CheckServiceStatus();
             }
             catch (CommunicationException ex)
             {
-                Trace.WriteLine($"Notification is down! {ex} \n Reconnecting...");
-                healthStatusRepo.Create(new HealthStatus("NotificationService") { ServiceType = "NotificationService", Status = "NOT_OK" });
-                var connection = new HubConnection("http://localhost:8080");
-                var myHub = connection.CreateHubProxy("AdminHub");
-                connection.Start().Wait();
-                string message = "1";
-                myHub.Invoke("SendMessage", "NotificationService", message).Wait();
-                ConnecToNotificationService();
+                if (notificationServiceFailedOnce)
+                {
+                    Trace.WriteLine($"NotificationService is down! {ex.Message} \n Reconnecting...");
+                    healthStatusRepo.Create(new HealthStatus("NotificationService") { ServiceType = "NotificationService", Status = "NOT_OK" });
+                    var connection = new HubConnection("http://localhost:8080");
+                    var myHub = connection.CreateHubProxy("AdminHub");
+                    connection.Start().Wait();
+                    string message = "1";
+                    myHub.Invoke("SendMessage", "NotificationService", message).Wait();
+                    ConnecToNotificationService();
+                }
             }
         }
 

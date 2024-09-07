@@ -13,5 +13,7 @@ namespace Common.Interfaces
         List<CommentData> GetAllComments();
         [OperationContract]
         CommentData GetComment(int id);
+        [OperationContract]
+        void UpdateComment(CommentData comment); // Dodato
     }
 }

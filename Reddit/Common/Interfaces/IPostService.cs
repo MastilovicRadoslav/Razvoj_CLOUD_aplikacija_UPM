@@ -15,5 +15,7 @@ namespace Common.Interfaces
         PostData GetPost(int id);
         [OperationContract]
         bool RemovePost(int id);
+        [OperationContract]
+        void UpdatePost(PostData post); // Dodato
     }
 }

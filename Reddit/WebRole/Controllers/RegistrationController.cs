@@ -1,7 +1,6 @@
 ﻿using Common.Entities;
 using Common.Interfaces;
 using Models;
-using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Web.Mvc;
@@ -40,7 +39,8 @@ namespace WebRole.Controllers
 
             User u = null;
             UserData newUser = null;
-            if (fname != string.Empty && lname != string.Empty && adress != string.Empty && city != string.Empty && state != string.Empty && phoneNumber != string.Empty && email != string.Empty && password != string.Empty)
+            if (fname != string.Empty && lname != string.Empty && adress != string.Empty && city != string.Empty &&
+            state != string.Empty && phoneNumber != string.Empty && email != string.Empty && password != string.Empty)
             {
                 string imagePath = pathConverter.ReplacePath(image);
                 u = new User(fname, lname, adress, city, state, phoneNumber, email, password, imagePath);
@@ -50,7 +50,7 @@ namespace WebRole.Controllers
             if (image != string.Empty)
             {
                 string imagePath = pathConverter.ReplacePath(image);
-                string projectDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                string projectDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
                 string pathToImageInProject = projectDirectory + imagePath;
                 if (!System.IO.File.Exists(pathToImageInProject))
                 {
@@ -75,6 +75,7 @@ namespace WebRole.Controllers
 
             if (u != null)
             {
+                AppContext.Users.Add(u);
                 // Ispis primljenih podataka od klijenta
                 Debug.WriteLine("Ime: " + u.FirstName);
                 Debug.WriteLine("Prezime: " + u.LastName);

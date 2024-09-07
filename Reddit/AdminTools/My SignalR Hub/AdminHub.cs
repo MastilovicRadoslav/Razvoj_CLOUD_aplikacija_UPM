@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.SignalR;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Mail;
 
@@ -24,36 +25,39 @@ namespace AdminTools.My_SignalR_Hub
             }
         }
 
-        void SendEmail(string subject, string body)
+        private void SendEmail(string subject, string body)
         {
             string fromMail = "drsprojekat2023@gmail.com";
             string fromPassword = "xrnu nktr zprh vvqk";
-            string toMail = "drsprojekat2023@gmail.com";
+            List<string> toMails = AdminTools.Program.EmailAddresses;
 
-            MailMessage message = new MailMessage
+            foreach (var toMail in toMails)
             {
-                From = new MailAddress(fromMail),
-                Subject = subject
-            };
-            message.To.Add(new MailAddress(toMail));
-            message.Body = body;
-            message.IsBodyHtml = true;
+                MailMessage message = new MailMessage
+                {
+                    From = new MailAddress(fromMail),
+                    Subject = subject,
+                    Body = body,
+                    IsBodyHtml = true
+                };
+                message.To.Add(new MailAddress(toMail));
 
-            var smtpClient = new SmtpClient("smtp.gmail.com")
-            {
-                Port = 587,
-                Credentials = new NetworkCredential(fromMail, fromPassword),
-                EnableSsl = true,
-            };
+                var smtpClient = new SmtpClient("smtp.gmail.com")
+                {
+                    Port = 587,
+                    Credentials = new NetworkCredential(fromMail, fromPassword),
+                    EnableSsl = true,
+                };
 
-            try
-            {
-                smtpClient.Send(message);
-                Console.WriteLine("Email uspešno poslat!");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Došlo je do greške tokom slanja emaila: {ex.Message}");
+                try
+                {
+                    smtpClient.Send(message);
+                    Console.WriteLine($"Email uspešno poslat na {toMail}!");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Došlo je do greške tokom slanja emaila na {toMail}: {ex.Message}");
+                }
             }
         }
     }

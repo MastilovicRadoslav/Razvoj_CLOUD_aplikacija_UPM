@@ -9,7 +9,7 @@ namespace WebRole.Blob
 {
     public class BlobHelper
     {
-        readonly CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("BlobDataConnectionString"));
+        readonly CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("BlobDataConnectionString"));     //Connection String
         readonly CloudBlobClient blobStorage;
 
         public BlobHelper()

@@ -64,5 +64,23 @@ namespace Common.Repositories
         {
             return ReadAll().Where(p => p.RowKey == id.ToString()).FirstOrDefault();
         }
+
+        public void Update(CommentData comment)  // Dodato
+        {
+            try
+            {
+                TableOperation updateOperation = TableOperation.Replace(comment);
+                TableResult result = _table.Execute(updateOperation);
+
+                if (result.HttpStatusCode < 200 || result.HttpStatusCode >= 300)
+                {
+                    throw new InvalidOperationException("Neuspešno ažuriranje komentara u Azure Table Storage.");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{ex}");
+            }
+        }
     }
 }

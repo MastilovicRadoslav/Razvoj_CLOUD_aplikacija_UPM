@@ -1,4 +1,4 @@
-.comments {
+﻿.comments {
     display: none;
     margin-top: 10px;
     padding-left: 20px;
@@ -24,3 +24,25 @@
     color: #666;
     margin-bottom: 10px;
 }
+
+.comment-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.like-unlike-container2 {
+    display: flex;
+    align-items: center;
+}
+
+.like-comment, .unlike-comment {
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.like-count-comment, .unlike-count-comment {
+    margin-right: 15px;
+}
+
+
+

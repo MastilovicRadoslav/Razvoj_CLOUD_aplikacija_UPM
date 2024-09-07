@@ -93,5 +93,23 @@ namespace Common.Repositories
                 return false;
             }
         }
+
+        public void Update(PostData post)  // Dodato
+        {
+            try
+            {
+                TableOperation updateOperation = TableOperation.Replace(post);
+                TableResult result = _table.Execute(updateOperation);
+
+                if (result.HttpStatusCode < 200 || result.HttpStatusCode >= 300)
+                {
+                    throw new InvalidOperationException("Failed to update post in Azure Table Storage.");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{ex}");
+            }
+        }
     }
 }

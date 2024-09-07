@@ -1,0 +1,130 @@
+﻿/* Stilovi za pitanja i chatbot */
+#questions-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 300px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f1f1f1;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+    #questions-container .section-title {
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #007bff;
+    }
+
+#chatbot {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 300px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #e6f4e6;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+#chatbot-messages {
+    max-height: calc(100vh - 250px); /* Dinamički se povećava do vrha stranice */
+    overflow-y: auto;
+    margin-bottom: 10px;
+    background-color: #ffffff; /* Pozadina */
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.message {
+    margin: 5px 0;
+}
+
+.user-message {
+    text-align: right;
+    color: #007bff;
+}
+
+.bot-message {
+    text-align: left;
+    color: #006400; /* Tamno zelena boja za bot poruke */
+    background-color: #ccffcc; /* Svetlo zelena boja za odgovore */
+    padding: 5px;
+    border-radius: 5px;
+}
+
+#questions-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+    #questions-list li {
+        cursor: pointer;
+        color: #007bff;
+        margin-bottom: 5px;
+    }
+
+        #questions-list li:hover {
+            text-decoration: underline;
+        }
+
+.section-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.answers-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #00cc00; /* Potpuno zelena boja za naslov */
+}
+
+/* Skriveni skrolbar */
+#chatbot-messages::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+}
+
+/* Stil za dugme Clear All */
+#clear-all-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+    #clear-all-btn:hover {
+        background-color: #0056b3;
+    }
+
+/* Stil za unos i dugme za slanje */
+#chatbot-input-container {
+    display: flex;
+    align-items: center;
+}
+
+#chatbot-input {
+    flex: 1;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#send-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-left: 5px;
+}
+
+    #send-btn:hover {
+        background-color: #0056b3;
+    }

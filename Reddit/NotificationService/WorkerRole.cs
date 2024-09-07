@@ -57,7 +57,7 @@ namespace NotificationService
             try
             {
                 var endpoint = RoleEnvironment.CurrentRoleInstance.InstanceEndpoints[internalEndpointName];
-                var endpointAddress = $"net.tcp://{endpoint.IPEndpoint}/Service";
+                var endpointAddress = $"net.tcp://{endpoint.IPEndpoint}/Service";   //Gadja sa HealtMonitoringService
                 serviceHost = new ServiceHost(typeof(ServiceStatus), new Uri(endpointAddress));
                 NetTcpBinding binding = new NetTcpBinding();
                 serviceHost.AddServiceEndpoint(typeof(ICheckServiceStatus), binding, endpointAddress);

@@ -41,5 +41,10 @@ namespace RedditService
         {
             return repository.Delete(id);
         }
+
+        public void UpdatePost(PostData post) // Dodato: Nova metoda za ažuriranje postova
+        {
+            repository.Update(post);
+        }
     }
 }

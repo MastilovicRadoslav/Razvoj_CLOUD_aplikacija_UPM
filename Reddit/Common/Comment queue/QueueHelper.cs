@@ -9,7 +9,7 @@ namespace Common.Comment_queue
     {
         public static CloudQueue GetQueueReference(String queueName)
         {
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("DataConnectionString"));
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("DataConnectionString"));   //Connection string
             CloudQueueClient queueClient = storageAccount.CreateCloudQueueClient();
             CloudQueue queue = queueClient.GetQueueReference(queueName);
             queue.CreateIfNotExists();

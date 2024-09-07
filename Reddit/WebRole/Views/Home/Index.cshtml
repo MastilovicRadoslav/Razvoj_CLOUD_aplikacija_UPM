@@ -44,22 +44,24 @@
     </div>
 
     <!-- Postovi -->
-    @if (Model.MyPosts.Count == 0)
-    {
-        <br>
-    }
-    else
-    {
-        foreach (var post in Model.MyPosts)
+    <div id="myPostsContainer">
+        @if (Model.MyPosts.Count == 0)
         {
-            <div class="post">
-                <h2>@post.Title</h2>
-                <span class="delete-post" onclick="deletePost('@post.Id')">
-                    <img class="delete-post-icon" src="~/Images/Icons/trash-icon.jpg" alt="Brisanje">
-                </span>
-            </div>
+            <br>
         }
-    }
+        else
+        {
+            foreach (var post in Model.MyPosts)
+            {
+                <div class="post">
+                    <h2>@post.Title</h2>
+                    <span class="delete-post" onclick="deletePost('@post.Id')">
+                        <img class="delete-post-icon" src="~/Images/Icons/trash-icon.jpg" alt="Brisanje">
+                    </span>
+                </div>
+            }
+        }
+    </div>
 
     <header>
         <h3>Sve teme</h3>
@@ -75,6 +77,7 @@
             </select>
         </div>
     </div>
+
     <div id="allPostsContainer">
         @if (Model.AllPosts.Count == 0)
         {
@@ -82,7 +85,6 @@
         }
         else
         {
-            <!-- Postovi -->
             foreach (var post in Model.AllPosts)
             {
                 <div class="post">
@@ -90,30 +92,50 @@
                 </div>
             }
         }
-        <div />
+    </div>
 
-        <!-- Modal  za dodavanje novo posta -->
-        <div id="myModal" class="modal">
-            <div class="modal-container">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <div class="modal-header">
-                        <h2 class="titleStyle">Novi post</h2>
-                    </div>
-                    <div class="modal-body">
-                        <form id="postForm" method="post" action="/Home/AddNewPost">
-                            <label for="postTitle">Tema:</label><br>
-                            <input type="text" id="postTitleModal" name="postTitleModal"><br><br>
-                            <label for="postDescription">Opis:</label><br>
-                            <textarea id="postDescriptionModal" name="postDescriptionModal"></textarea><br><br>
-                            <label for="postImage">Slika:</label><br>
-                            <input type="file" id="imageModal" name="imageModal" onchange="showImage(this)" accept="image/*" /><br><br>
-                            <img id="newPostImage" src="" alt="Slika za post"><br><br>
-                            <input type="button" class="btn btn-outline-dark custom-button" onclick="ValidateAndSubmitPost()" value="Dodaj novi post">
-                        </form>
-                    </div>
+    <header>
+        <h3>Omiljene teme</h3>
+    </header>
+
+    <div id="favoritesPostsContainer">
+        @if (Model.FavoritesPosts.Count == 0)
+        {
+            <br>
+        }
+        else
+        {
+            foreach (var post in Model.FavoritesPosts)
+            {
+                <div class="post">
+                    <h2>@post.Title</h2>
+                </div>
+            }
+        }
+    </div>
+
+    <!-- Modal za dodavanje novog posta -->
+    <div id="myModal" class="modal">
+        <div class="modal-container">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div class="modal-header">
+                    <h2 class="titleStyle">Novi post</h2>
+                </div>
+                <div class="modal-body">
+                    <form id="postForm" method="post" action="/Home/AddNewPost">
+                        <label for="postTitle">Tema:</label><br>
+                        <input type="text" id="postTitleModal" name="postTitleModal"><br><br>
+                        <label for="postDescription">Opis:</label><br>
+                        <textarea id="postDescriptionModal" name="postDescriptionModal"></textarea><br><br>
+                        <label for="postImage">Slika:</label><br>
+                        <input type="file" id="imageModal" name="imageModal" onchange="showImage(this)" accept="image/*" /><br><br>
+                        <img id="newPostImage" src="" alt="Slika za post"><br><br>
+                        <input type="button" class="btn btn-outline-dark custom-button" onclick="ValidateAndSubmitPost()" value="Dodaj novi post">
+                    </form>
                 </div>
             </div>
         </div>
+    </div>
 </body>
 </html>

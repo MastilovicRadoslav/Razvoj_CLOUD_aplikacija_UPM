@@ -34,12 +34,12 @@
         <p class="post-meta">Post je objavio - @Model.UserEmail</p>
         <div class="like-unlike-wrapper">
             <div class="like-unlike-container">
-                <div class="like" id="likeBtn">&#x1F44D;</div>
-                <div class="like-count" id="likeCountDisplay">@Model.Like</div>
+                <div class="like" data-post-id="@Model.Id">&#x1F44D;</div>
+                <div class="like-count" data-post-id="@Model.Id">@Model.Like</div>
             </div>
             <div class="like-unlike-container">
-                <div class="unlike" id="unlikeBtn">&#x1F44E;</div>
-                <div class="unlike-count" id="unlikeCountDisplay">@Model.UnLike</div>
+                <div class="unlike" data-post-id="@Model.Id">&#x1F44E;</div>
+                <div class="unlike-count" data-post-id="@Model.Id">@Model.UnLike</div>
             </div>
         </div>
         <div class="toggle-comments">+</div>
@@ -47,8 +47,18 @@
         <div class="comments">
             @foreach (var comment in Model.Comments)
             {
-                <div class="comment">@comment.Text</div>
-                <div class="comment-meta">Komentarisao je - @comment.UserEmail</div>
+                <div class="comment-wrapper">
+                    <div class="comment">@comment.Text</div>
+                    <div class="comment-meta">
+                        Komentarisao je - @comment.UserEmail
+                        <div class="like-unlike-container2">
+                            <div class="like-comment" data-comment-id="@comment.PostId">&#x1F44D;</div>
+                            <div class="like-count-comment" data-comment-id="@comment.PostId">@comment.Like</div>
+                            <div class="unlike-comment" data-comment-id="@comment.PostId">&#x1F44E;</div>
+                            <div class="unlike-count-comment" data-comment-id="@comment.PostId">@comment.Unlike</div>
+                        </div>
+                    </div>
+                </div>
                 <div style="margin-bottom:20px;"></div>
             }
             <!-- Dodavanje novog komentara -->

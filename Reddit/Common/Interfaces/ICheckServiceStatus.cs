@@ -9,3 +9,4 @@ namespace Common.Interfaes
         bool CheckServiceStatus();
     }
 }
+

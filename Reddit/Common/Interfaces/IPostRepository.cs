@@ -9,5 +9,6 @@ namespace Common.Interfaces
         PostData Read(int id);
         IQueryable<PostData> ReadAll();
         bool Delete(int id);
+        void Update(PostData post);  // Dodato
     }
 }

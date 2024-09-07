@@ -14,8 +14,16 @@ namespace WebRole.Controllers
         public ActionResult ShowProfile()
         {
             User loggedInUser = (User)Session["LoggedInUser"];
+            User newUser = null;
             if (loggedInUser != null)
             {
+                foreach (var u in AppContext.Users)
+                {
+                    if (u.Email.Equals(loggedInUser.Email))
+                    {
+                        newUser = u;
+                    }
+                }
                 return View(loggedInUser);
             }
             return View();

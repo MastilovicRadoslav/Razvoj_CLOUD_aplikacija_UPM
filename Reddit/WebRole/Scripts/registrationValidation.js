@@ -82,7 +82,7 @@ function ValidateAndSubmitReg() {
     }
 }
 
-/* Dinamièko prikazivanje odabrane slike */
+/* Dinamicko prikazivanje odabrane slike */
 function previewImageReg(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();

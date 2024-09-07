@@ -6,5 +6,7 @@ namespace Models
     {
         public List<Post> MyPosts { get; set; } = new List<Post>();
         public List<Post> AllPosts { get; set; } = new List<Post>();
+        public List<Post> FavoritesPosts { get; set; } = new List<Post>();    //DODATO
+
     }
 }

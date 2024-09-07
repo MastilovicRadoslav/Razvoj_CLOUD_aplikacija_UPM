@@ -13,6 +13,7 @@ namespace Models
         public int UserId { get; set; }
         public int Like { get; set; }
         public int UnLike { get; set; }
+        public int FavoriteCount { get; set; }
 
         public Post()
         {

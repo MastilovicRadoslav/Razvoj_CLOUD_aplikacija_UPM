@@ -39,10 +39,18 @@ namespace WebRole.Controllers
                 serviceConnectorComment.Connect("net.tcp://localhost:10102/CommentService");
                 ICommentService commentService = serviceConnectorComment.GetProxy();
 
+                // Connect to the favourites service  - DODATO
+                ServiceConnector<IFavouritesService> serviceConnectorFavourites = new ServiceConnector<IFavouritesService>();
+                serviceConnectorFavourites.Connect("net.tcp://localhost:10103/FavouritesService");
+                IFavouritesService favouritesService = serviceConnectorFavourites.GetProxy();
+
                 List<PostData> allPostsFromTable = postService.GetAllPosts();
                 List<CommentData> allCommentsFromTable = commentService.GetAllComments();
+                List<Favourites> allFavouritesFromTable = favouritesService.GetAllFavourites(); //DODATO
+
                 List<Post> allPosts = new List<Post>();
                 List<Post> myPosts = new List<Post>();
+
                 foreach (var postData in allPostsFromTable)
                 {
                     Post post = new Post
@@ -54,7 +62,7 @@ namespace WebRole.Controllers
                         Comments = new List<Comment>(),
                         UserEmail = postData.UserEmail,
                         Like = postData.Like,
-                        UnLike = postData.UnLike
+                        UnLike = postData.UnLike,
                     };
 
                     foreach (var commentData in allCommentsFromTable)
@@ -65,7 +73,9 @@ namespace WebRole.Controllers
                             {
                                 Text = commentData.Text,
                                 UserEmail = commentData.UserEmail,
-                                PostId = commentData.PostId
+                                PostId = commentData.PostId,
+                                Like = commentData.Like,
+                                Unlike = commentData.Unlike
                             };
                             post.Comments.Add(comment);
                         }
@@ -79,11 +89,16 @@ namespace WebRole.Controllers
                     }
                 }
 
+                var sortedFavorites = GetSortedFavoritesByPostId(allPostsFromTable, allFavouritesFromTable);    //DODATA FUNKCIJA
+
                 AppContext.homePagePostLists.AllPosts = allPosts;
                 AppContext.homePagePostLists.MyPosts = myPosts;
+                AppContext.homePagePostLists.FavoritesPosts = sortedFavorites;  //DA SE PRIKAZU - DODATO
+
                 return View(AppContext.homePagePostLists);
             }
         }
+
 
         // POST: Home/OpenPost
         // Obrada zahteva za otvaranje stranice sa nekom temom
@@ -122,7 +137,7 @@ namespace WebRole.Controllers
                 newPost.UnLike = 0;
                 postdata = new PostData(newPost.Title, newPost.Description, newPost.Image, newPost.UserEmail, newPost.Like, newPost.UnLike);
 
-                if (postImage != string.Empty)
+                if (postImage != string.Empty) //Nije potrebno ovo konvertovanje ali necu ga dirati za sad
                 {
                     string imagePath = pathConverter.ReplacePath(postImage);
                     string projectDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
@@ -136,7 +151,7 @@ namespace WebRole.Controllers
                         using (Image imageToBlob = Image.FromFile(pathToImageInProject))
                         {
                             string containerName = "redditpostimages";
-                            string blobName = string.Format("image_{0}", newPost.Id);
+                            string blobName = string.Format("image_{0}", postImage);
                             string imageUrl = blobHelper.UploadImage(imageToBlob, containerName, blobName);
                             Debug.WriteLine("Image uploaded to: " + imageUrl);
                         }
@@ -246,5 +261,34 @@ namespace WebRole.Controllers
             }
             return RedirectToAction("Home", "Index");
         }
+
+        private List<Post> GetSortedFavoritesByPostId(List<PostData> allPostsFromTable, List<Favourites> allFavouritesFromTable)   //DODDATO
+        {
+            // Kreiranje mape za brojanje favorita
+            var favouriteCounts = allFavouritesFromTable
+                .GroupBy(f => f.PostId)
+                .Select(group => new { PostId = group.Key, Count = group.Count() })
+                .ToDictionary(g => g.PostId, g => g.Count);
+
+            // Kreiranje liste postova sa brojem favorita
+            List<Post> sortedFavorites = allPostsFromTable
+                .Where(postData => favouriteCounts.ContainsKey(postData.Id))
+                .Select(postData => new Post
+                {
+                    Id = postData.Id,
+                    Title = postData.Title,
+                    Description = postData.Description,
+                    Image = postData.Image,
+                    UserEmail = postData.UserEmail,
+                    Like = postData.Like,
+                    UnLike = postData.UnLike,
+                    FavoriteCount = favouriteCounts[postData.Id]
+                })
+                .OrderByDescending(post => post.FavoriteCount)
+                .ToList();
+
+            return sortedFavorites;
+        }
+
     }
 }

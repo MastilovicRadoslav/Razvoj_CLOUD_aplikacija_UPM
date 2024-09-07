@@ -13,7 +13,7 @@ namespace Common.Repositories
 
         public HealthStatusRepository()
         {
-            string connectionString = CloudConfigurationManager.GetSetting("HealthStatusConnectionString");
+            string connectionString = CloudConfigurationManager.GetSetting("HealthStatusConnectionString");  //Connection String
             if (string.IsNullOrEmpty(connectionString))
             {
                 throw new InvalidOperationException("Connection string for Azure Storage is not set.");
